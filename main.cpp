@@ -1,46 +1,84 @@
-#include<bits/stdc++.h>
-
-#define FOR(i, a, b) for(int i=(a);i<=(b);i++)
-
-using namespace std;
-
-typedef pair<int, int> pb;
-
-vector<int> array_a;
+#include "Quad_tree.h"
 
 int main() {
-    int n, x, num;
+    vector<vector<int>> pmg;
 
-    cin >> n >> x;
-    FOR(i, 0, n - 1) {
-        cin >> num;
-        array_a.push_back(num);
-    }
+    pmg.resize(8);
+    pmg.at(0).push_back(0);
+    pmg.at(0).push_back(0);
+    pmg.at(0).push_back(0);
+    pmg.at(0).push_back(0);
+    pmg.at(0).push_back(0);
+    pmg.at(0).push_back(0);
+    pmg.at(0).push_back(0);
+    pmg.at(0).push_back(0);
 
-    int i = 0;
-    int j = 0;
-    int sum = 0;
-    int tmp = 0;
-    int cant=0;
+    pmg.at(1).push_back(0);
+    pmg.at(1).push_back(0);
+    pmg.at(1).push_back(0);
+    pmg.at(1).push_back(0);
+    pmg.at(1).push_back(0);
+    pmg.at(1).push_back(0);
+    pmg.at(1).push_back(0);
+    pmg.at(1).push_back(0);
 
-    tmp = array_a.at(0);
-    sum = tmp;
-    while (i < n) {
-        while (sum < x && j < n - 1) {
-            j++;
-            sum += array_a.at(j);
-        }
-        if (sum == x) {
-            i++;
-            sum = array_a.at(i);
-            cant++;
-            j = i+1;
-        } else {
-            i++;
-            sum -= abs(tmp);
-        }
-        if (i < n)
-            tmp = array_a.at(i);
-    }
-    cout << cant << endl;
+    pmg.at(2).push_back(0);
+    pmg.at(2).push_back(0);
+    pmg.at(2).push_back(0);
+    pmg.at(2).push_back(0);
+    pmg.at(2).push_back(1);
+    pmg.at(2).push_back(1);
+    pmg.at(2).push_back(1);
+    pmg.at(2).push_back(0);
+
+    pmg.at(3).push_back(0);
+    pmg.at(3).push_back(0);
+    pmg.at(3).push_back(0);
+    pmg.at(3).push_back(0);
+    pmg.at(3).push_back(1);
+    pmg.at(3).push_back(1);
+    pmg.at(3).push_back(0);
+    pmg.at(3).push_back(0);
+
+    pmg.at(4).push_back(1);
+    pmg.at(4).push_back(1);
+    pmg.at(4).push_back(1);
+    pmg.at(4).push_back(1);
+    pmg.at(4).push_back(1);
+    pmg.at(4).push_back(1);
+    pmg.at(4).push_back(0);
+    pmg.at(4).push_back(0);
+
+    pmg.at(5).push_back(1);
+    pmg.at(5).push_back(1);
+    pmg.at(5).push_back(1);
+    pmg.at(5).push_back(1);
+    pmg.at(5).push_back(1);
+    pmg.at(5).push_back(1);
+    pmg.at(5).push_back(0);
+    pmg.at(5).push_back(0);
+
+    pmg.at(6).push_back(1);
+    pmg.at(6).push_back(1);
+    pmg.at(6).push_back(1);
+    pmg.at(6).push_back(1);
+    pmg.at(6).push_back(0);
+    pmg.at(6).push_back(0);
+    pmg.at(6).push_back(0);
+    pmg.at(6).push_back(0);
+
+    pmg.at(7).push_back(1);
+    pmg.at(7).push_back(1);
+    pmg.at(7).push_back(1);
+    pmg.at(7).push_back(1);
+    pmg.at(7).push_back(0);
+    pmg.at(7).push_back(0);
+    pmg.at(7).push_back(0);
+    pmg.at(7).push_back(1);
+
+    Quad_tree qTree(pmg, 8, 8);
+
+    qTree.build();
+
+    return 0;
 }
