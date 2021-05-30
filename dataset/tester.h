@@ -7,28 +7,12 @@
 
 #include "../Components/Quad_tree.h"
 
-class metadata {
-public:
-    vector<int> data;
-    int weight;
-    int height;
-    int max_property;
-
-    metadata() {
-
-    }
-
-    metadata(const metadata &meta) {
-        this->data = meta.data;
-    }
-};
-
 class tester {
 public:
-    vector<int> data;
-    int weight;
+    vector<vector<int>> data;
+    int width;
     int height;
-    int max_property;
+    int maxProperty;
 
     void static test_8x8() {
         vector<vector<int>> pmg;
@@ -106,7 +90,7 @@ public:
         pmg.at(7).push_back(0);
         pmg.at(7).push_back(1);
 
-        Quad_tree qTree(pmg, 8, 8);
+        Quad_tree qTree(pmg, 8, 8, 1);
 
         qTree.build();
         qTree.print();
@@ -126,19 +110,46 @@ public:
 
     }
 
-    void test_pgm() {
-        readFromFile("../dataset/dragon.pgm");
+    void test_pgm_to_txt() {
+        readFromPGM("../dataset/dragon.pgm");
 
+        Quad_tree qTree(this->data, this->width, this->height, this->maxProperty);
+
+        qTree.build();
+        //qTree.print();
+        qTree.fileName = "../result/dragon.txt";
+        int res = qTree.save();
+        if(res == 0)
+            cout << "file saved"<<endl;
+        else
+            cout << "file not saved"<<endl;
+    }
+
+    void test_export_fefp() {
+        Quad_tree qTree;
+        qTree.fileName = "../result/fefp.txt";
+        auto res = qTree.load();
+        if(res == 0) {
+            cout << "read from file " <<endl;
+            qTree.print();
+        }
+
+        string fname = "../result/feepv2.pgm";
+        res = qTree.export_2_pgm(fname);
+        if(res == 0)
+            cout << fname << " exported to PGM correctly" << endl;
+        else
+            cout << fname << " error "<<endl;
     }
 
 private:
-    void readFromFile(const string& fileNameIn) {
-    //vector<int> *readFromFile(const string& fileNameIn) {
+    void readFromPGM(const string& fileNameIn) {
+    //vector<int> *readFromPGM(const string& fileNameIn) {
         vector<int> tmp;
         int num;
-        int weight;
-        int height;
-        int max_property;
+        //int weight;
+        //int height;
+        //int maxProperty;
         fstream file;
         string linea;
         file = fstream();
@@ -149,30 +160,30 @@ private:
             cout << " File error " << endl;
 
         getline(file, linea);
-
         getline(file, linea);
 
-        file >> weight >> height;
-        file >> max_property;
+        file >> this->width >> this->height;
+        file >> this->maxProperty;
 
         //tmp.resize(height);
-        this->data.reserve(height*weight);
-        for(int i=0; i<height;i++) {
-            for(int j=0; j<weight;j++) {
+        this->data.resize(this->height);
+        for(int i=0; i<this->height;i++) {
+            tmp.clear();
+            for(int j=0; j<this->width; j++) {
                 file >> num;
-                this->data.emplace_back(num);
+                tmp.emplace_back(num);
             }
+            this->data.at(i) = tmp;
         }
 
         if (file.is_open())
             file.close();
 
-        auto meta = new metadata();
+        /*auto meta = new metadata();
         meta->data = tmp;
         meta->height = height;
         meta->weight = weight;
-        meta->max_property = max_property;
-
+        meta->maxProperty = maxProperty;*/
     }
 };
 
